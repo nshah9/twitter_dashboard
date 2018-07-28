@@ -1,1 +1,14 @@
-My first tweet
+= simple_form_for :search, url: {controller: :searches, action: :show}, method: :get do |f|
+  %fieldset
+    = f.input :user_handle,
+      as: :search,
+      label: 'Search User Handle'
+    %button Search
+
+- if @tweets.present?
+  - if @tweets.count == 0
+    No popular tweets
+  - else
+    %ul
+      - @tweets.each do |tweet|
+        %li= tweet.text
