@@ -11,4 +11,9 @@
   - else
     %ul
       - @tweets.each do |tweet|
-        %li= tweet.text
+        - tweet_html = @client.oembed(tweet, hide_media: true, hide_thread: true).html.html_safe rescue nil
+        - if tweet_html.present?
+          %li
+            = @client.oembed(tweet).html.html_safe
+          %span
+            = (tweet.favorite_count + tweet.retweet_count)/(100)*100
