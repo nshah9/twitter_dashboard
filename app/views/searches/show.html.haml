@@ -15,5 +15,9 @@
         - if tweet_html.present?
           %li
             = @client.oembed(tweet).html.html_safe
-          %span
-            = (tweet.favorite_count + tweet.retweet_count)/(100)*100
+            - if @followers_count != 0
+              %span
+                = (tweet.favorite_count + tweet.retweet_count)/@followers_count*100
+            - else
+              0
+            = '%'
