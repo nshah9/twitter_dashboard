@@ -9,15 +9,29 @@
   - if @tweets.count == 0
     No popular tweets
   - else
-    %ul
-      - @tweets.each do |tweet|
-        - tweet_html = @client.oembed(tweet, hide_media: true, hide_thread: true).html.html_safe rescue nil
-        - if tweet_html.present?
-          %li
-            = @client.oembed(tweet).html.html_safe
-            - if @followers_count != 0
-              %span
-                = (tweet.favorite_count + tweet.retweet_count)/@followers_count*100
-            - else
-              0
-            = '%'
+    %div
+      - media_present, media_not_present = @tweets.partition{|t| t.media? == true}
+      = pie_chart [['Media present', media_present.length], ['Media not present', media_not_present.length]]
+    %div
+      %ul.list--no-bullet
+        %li.list--two-columns
+          .column-one
+            %strong Tweets
+          .column-two
+            %strong Engagements
+        - @tweets.each do |tweet|
+          -# hide_media and hide_thread do not seem to work
+          -# - tweet_html = @client.oembed(tweet, hide_media: true, hide_thread: true).html.html_safe rescue nil
+          -# - tweet_html = @client.oembed(tweet, 'data-cards' => 'hidden', 'data-conversation' => 'none').html.html_safe rescue nil
+          -# - if tweet_html.present?
+          %li.list--two-columns
+            -# = @client.oembed(tweet).html.html_safe
+            .column-one
+              = tweet.text
+            .column-two
+              - if @followers_count != 0
+                %span
+                  = ((tweet.favorite_count + tweet.retweet_count)/@followers_count*100.0).round(4)
+              - else
+                0
+              = '%'
