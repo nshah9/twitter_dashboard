@@ -1,16 +1,15 @@
-# Twitter Dashboard
+= Twitter Dashboard
 
-## Setting up
+== Setting up
 
-```
-brew install rbenv
-rbenv install 2.3.3
-gem update --system
-gem install bundler
-bundle install
-rbenv rehash
-bundle exec rake --trace db:create db:migrate
-rails s
-```
+  $ brew install rbenv
+  $ rbenv install 2.3.3
+  $ gem update --system
+  $ gem install bundler
+  $ bundle install
+  $ rbenv rehash
+  $ bundle exec rake --trace db:create db:migrate
+  $ rails s
 
-Go to URL: ```localhost:3000```
+Go to URL:
+  $ localhost:3000
